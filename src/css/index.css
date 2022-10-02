@@ -4,6 +4,7 @@
     text-decoration: none;
     font-family: "Ubuntu", sans-serif;
     box-sizing: border-box;
+    background-color: #111111;
 }
 
 /* Scroll Bar */
@@ -32,16 +33,6 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Links */
-a {
-    color: #0055b3;
-    transition: .3s linear;
-}
-
-a:hover {
-    color: #0055b3b2;
-}
-
 .inner-width {
     max-width: 1300px;
     margin: auto;
@@ -50,7 +41,6 @@ a:hover {
 
 section {
     padding: 40px 0;
-    background-color: #111111;
 }
 
 .section-title {
