@@ -1,2 +1,1 @@
-# contact
-Contact Form
+# Contact Form
