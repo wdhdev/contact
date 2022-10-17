@@ -2,7 +2,7 @@
 
 body {
     font-family: Ubuntu;
-    background: #4070f4;
+    background: #004999;
     color: white;
     overflow: hidden;
     margin: 0;
@@ -53,7 +53,7 @@ input {
     text-decoration: none;
     border: none;
     line-height: 24px;
-    background-color: #4070f4;
+    background-color: #004999;
     color: #ffffff;
     border-radius: 25px;
     cursor: pointer;
