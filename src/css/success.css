@@ -2,7 +2,7 @@
 
 body {
     font-family: Ubuntu;
-    background: #004999;
+    background: #222222;
     color: white;
     overflow: hidden;
     margin: 0;
@@ -33,7 +33,7 @@ h1 {
     width: 75%;
     max-width: 364px;
     padding: 24px;
-    background: white;
+    background: #ffffff;
     color: rgb(14, 30, 37);
     border-radius: 8px;
     box-shadow: 0 2px 4px 0 rgba(14, 30, 37, .16);
