@@ -82,7 +82,7 @@ section {
     width: 16px;
     height: 10px;
     background-color: #ffffff;
-    border: 4px solid #111111;
+    border: 4px solid #222222;
     left: calc(50% - 12px);
     bottom: -7px;
 }
@@ -175,5 +175,28 @@ footer {
 
     .firstname, .lastname {
         max-width: 100%;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    body {
+        background-color: #f9f9f9;
+    }
+
+    section {
+        background-color: #f9f9f9;
+    }
+
+    .section-title {
+        color: #222222;
+    }
+
+    .section-title::before {
+        background-color: #222222;
+    }
+
+    .section-title::after {
+        background-color: #222222;
+        border: 4px solid #f9f9f9;
     }
 }
