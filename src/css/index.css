@@ -55,6 +55,7 @@ a:hover {
 section {
     padding: 40px 0;
     background-color: #222222;
+    transition: .3s linear;
 }
 
 .section-title {
