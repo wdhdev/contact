@@ -30,9 +30,9 @@ h1 {
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 75%;
-    max-width: 364px;
-    padding: 24px;
+    width: 100%;
+    max-width: 250px;
+    padding: 28px;
     background: #ffffff;
     color: rgb(14, 30, 37);
     border-radius: 8px;
