@@ -1,5 +1,4 @@
 User-agent: *
-Disallow: _redirects
 Disallow: 404.html
 Disallow: success.html
 Allow: /assets/*
