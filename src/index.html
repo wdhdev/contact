@@ -26,36 +26,29 @@
         <!-- Favicon -->
         <link rel="shortcut icon" href="/assets/favicon.ico">
 
-        <!-- Stylesheets -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap">
-        <link rel="stylesheet" href="/css/index.css">
+        <!-- Scripts -->
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
 
-    <body>
-        <section id="contact">
-            <div class="inner-width">
-                <h1 class="section-title">Contact Me</h1>
+    <body class="p-8 max-w-md m-auto bg-zinc-900 text-white text-center">
+        <header class="mb-10">
+            <h1 class="text-3xl font-bold">Contact Form</h1>
+        </header>
 
-                <!-- Form -->
-                <form id="contact" name="contact-form" class="contact-form" action="/success" method="POST" data-netlify="true">
-                    <input type="text" name="firstname" class="firstname" id="firstname" placeholder="First Name" required>
-                    <input type="text" name="lastname" class="lastname" id="lastname" placeholder="Last Name" required>
-                    <input type="email" name="email" class="email" id="email" placeholder="Email" required>
-                    <input type="text" name="subject" class="subject" id="subject" placeholder="Subject" required>
-                    <textarea name="message" class="message" placeholder="Message" id="message" maxlength="2048" required></textarea>
+        <main>
+            <form id="contact" class="mb-8" action="/success" method="POST" data-netlify="true">
+                <input type="text" name="first-name" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="First Name" required>
+                <input type="text" name="last-name" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Last Name" required>
+                <input type="email" name="email" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Email" required>
 
-                    <button type="submit" class="btn">Send Message</button>
-                </form>
-            </div>
-        </section>
+                <textarea type="text" name="text" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Message" required></textarea>
 
-        <!-- Footer -->
-        <footer>
-            <div class="inner-width">
-                <div class="copyright">&copy; 2023 William Harrison - All Rights Reserved.</div>
-            </div>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Send Message</button>
+            </form>
+        </main>
+
+        <footer class="mt-8">
+            <p>&copy; 2023 <span class="font-semibold">William Harrison</span> - All Rights Reserved.</p>
         </footer>
     </body>
 </html>
