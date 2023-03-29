@@ -46,13 +46,8 @@
 
                 <textarea type="text" id="message" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Message" required></textarea>
 
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Send Message</button>
+                <button type="submit" id="btn" class="bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Send Message</button>
             </form>
-
-            <div id="processing" class="hidden">
-                <i class="fa-solid fa-spinner fa-spin bg-gray-600 pt-2.5 pb-2 pl-3 pr-3 rounded-full text-3xl mb-2"></i>
-                <h1 class="mb-6 text-2xl font-bold">Processing</h1>
-            </div>
 
             <div id="success" class="hidden">
                 <i class="fa-solid fa-check bg-green-600 pt-2.5 pb-2 pl-3 pr-3 rounded-full text-3xl mb-2"></i>
@@ -82,9 +77,13 @@
         const lastName = document.getElementById("last-name");
         const email = document.getElementById("email");
         const message = document.getElementById("message");
+        const btn = document.getElementById("btn");
 
         async function submitForm() {
             event.preventDefault();
+
+            btn.setAttribute("disabled", true);
+            btn.innerHTML = "Sending Message...";
 
             fetch("https://api.wdh.gg/forms/contact", {
                 method: "POST",
@@ -100,14 +99,13 @@
             }).then(res => res.json()).then(data => {
                 form.reset();
 
+                form.className += " hidden";
+
                 if(data.code === "FORM_SUBMITTED") {
-                    form.className += " hidden";
                     document.getElementById("success").removeAttribute("class", "hidden");
                 } else if(data.code === "RATE_LIMITED") {
-                    form.className += " hidden";
                     document.getElementById("ratelimited").removeAttribute("class", "hidden");
                 } else {
-                    form.className += " hidden";
                     document.getElementById("error").removeAttribute("class", "hidden");
                 }
             })
