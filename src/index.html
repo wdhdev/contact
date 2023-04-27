@@ -46,7 +46,7 @@
 
                 <textarea type="text" id="message" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Message" required></textarea>
 
-                <button type="submit" id="btn" class="bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Send Message</button>
+                <button type="submit" id="btn" class="bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
             </form>
 
             <div id="success" class="hidden">
@@ -83,7 +83,7 @@
             event.preventDefault();
 
             btn.setAttribute("disabled", true);
-            btn.innerHTML = "Sending Message...";
+            btn.innerHTML = "Submitting...";
 
             fetch("https://api.wdh.gg/forms/contact", {
                 method: "POST",
