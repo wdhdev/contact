@@ -1,10 +1,6 @@
 User-agent: *
 
 Disallow: 404.html
-Disallow: error.html
-Disallow: success.html
 
 Allow: /assets/*
 Allow: index.html
-
-Sitemap: sitemap.xml

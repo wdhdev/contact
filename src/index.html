@@ -6,21 +6,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- HTML Meta Tags -->
-        <title>Contact Me</title>
+        <title>Contact | William Harrison</title>
 
         <!-- Google / Search Engine Tags -->
-        <meta itemprop="name" content="Contact Me">
+        <meta itemprop="name" content="Contact | William Harrison">
         <meta itemprop="image" content="https://contact.wdh.gg/assets/meta/banner.png">
 
         <!-- Facebook Meta Tags -->
         <meta property="og:url" content="https://contact.wdh.gg">
         <meta property="og:type" content="website">
-        <meta property="og:title" content="Contact Me">
+        <meta property="og:title" content="Contact | William Harrison">
         <meta property="og:image" content="https://contact.wdh.gg/assets/meta/banner.png">
 
         <!-- Twitter Meta Tags -->
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="Contact Me">
+        <meta name="twitter:title" content="Contact | William Harrison">
         <meta name="twitter:image" content="https://contact.wdh.gg/assets/meta/banner.png">
 
         <!-- Favicon -->
@@ -40,11 +40,15 @@
 
         <main>
             <form id="contact" class="mb-8" onsubmit="submitForm()">
-                <input type="text" id="first-name" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="First Name" required>
-                <input type="text" id="last-name" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Last Name" required>
-                <input type="email" id="email" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Email" required>
+                <input type="text" id="first-name-rT4zTaRGRt" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="First Name" required>
+                <input type="text" id="last-name-KgXrfFELy8" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Last Name" required>
+                <input type="email" id="email-mKjppLqK8M" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Email" required>
+                <textarea type="text" id="message-ife5t7Ts5P" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Message" required></textarea>
 
-                <textarea type="text" id="message" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Message" required></textarea>
+                <input type="text" id="first-name" class="opacity-0 absolute inset-x-0 inset-y-0 w-0 -z-1" placeholder="First Name" autocomplete="off" required>
+                <input type="text" id="last-name" class="opacity-0 absolute inset-x-0 inset-y-0 w-0 -z-1" placeholder="Last Name" autocomplete="off" required>
+                <input type="email" id="email" class="opacity-0 absolute inset-x-0 inset-y-0 w-0 -z-1" placeholder="Email" autocomplete="off" required>
+                <textarea type="text" id="message" class="opacity-0 absolute inset-x-0 inset-y-0 w-0 -z-1" placeholder="Message" autocomplete="off" required></textarea>
 
                 <button type="submit" id="btn" class="bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
             </form>
@@ -71,5 +75,43 @@
         </footer>
     </body>
 
-    <script src="/js/form.js"></script>
+    <script>
+        const form = document.getElementById("contact");
+        const firstName = document.getElementById("first-name-rT4zTaRGRt");
+        const lastName = document.getElementById("last-name-KgXrfFELy8");
+        const email = document.getElementById("email-mKjppLqK8M");
+        const message = document.getElementById("message-ife5t7Ts5P");
+        const btn = document.getElementById("btn");
+
+        async function submitForm() {
+            event.preventDefault();
+
+            btn.setAttribute("disabled", true);
+            btn.innerHTML = "Submitting...";
+
+            fetch("https://api.wdh.gg/forms/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    firstname: firstName.value,
+                    lastname: lastName.value,
+                    email: email.value,
+                    message: message.value
+                })
+            }).then(res => res.json()).then(data => {
+                form.reset();
+                form.className += " hidden";
+
+                if(data.code === "FORM_SUBMITTED") {
+                    document.getElementById("success").removeAttribute("class", "hidden");
+                } else if(data.code === "RATE_LIMITED") {
+                    document.getElementById("ratelimited").removeAttribute("class", "hidden");
+                } else {
+                    document.getElementById("error").removeAttribute("class", "hidden");
+                }
+            })
+        }
+    </script>
 </html>
