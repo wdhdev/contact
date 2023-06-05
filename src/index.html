@@ -45,10 +45,10 @@
                 <input type="email" id="email-mKjppLqK8M" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Email" required>
                 <textarea type="text" id="message-ife5t7Ts5P" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Message" required></textarea>
 
-                <input type="text" id="first-name" class="opacity-0 absolute inset-x-0 inset-y-0 w-0 -z-1" placeholder="First Name" autocomplete="off" required>
-                <input type="text" id="last-name" class="opacity-0 absolute inset-x-0 inset-y-0 w-0 -z-1" placeholder="Last Name" autocomplete="off" required>
-                <input type="email" id="email" class="opacity-0 absolute inset-x-0 inset-y-0 w-0 -z-1" placeholder="Email" autocomplete="off" required>
-                <textarea type="text" id="message" class="opacity-0 absolute inset-x-0 inset-y-0 w-0 -z-1" placeholder="Message" autocomplete="off" required></textarea>
+                <input type="text" id="first-name" class="opacity-0 absolute inset-x-0 inset-y-0 w-0 -z-1" placeholder="First Name" autocomplete="off">
+                <input type="text" id="last-name" class="opacity-0 absolute inset-x-0 inset-y-0 w-0 -z-1" placeholder="Last Name" autocomplete="off">
+                <input type="email" id="email" class="opacity-0 absolute inset-x-0 inset-y-0 w-0 -z-1" placeholder="Email" autocomplete="off">
+                <textarea type="text" id="message" class="opacity-0 absolute inset-x-0 inset-y-0 w-0 -z-1" placeholder="Message" autocomplete="off"></textarea>
 
                 <button type="submit" id="btn" class="bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
             </form>
@@ -68,6 +68,12 @@
                 <h1 class="mb-2 text-2xl font-bold">Rate Limited</h1>
                 <p class="mb-6">Too many requests, please try again later.</p>
             </div>
+
+            <div id="spam" class="hidden">
+                <i class="fa-solid fa-x bg-red-600 pt-2.5 pb-2 pl-4 pr-4 rounded-full text-3xl mb-2"></i>
+                <h1 class="mb-2 text-2xl font-bold">Form Spam</h1>
+                <p class="mb-6">This form has been detected as spam.</p>
+            </div>
         </main>
 
         <footer class="mt-8">
@@ -77,17 +83,32 @@
 
     <script>
         const form = document.getElementById("contact");
+
         const firstName = document.getElementById("first-name-rT4zTaRGRt");
         const lastName = document.getElementById("last-name-KgXrfFELy8");
         const email = document.getElementById("email-mKjppLqK8M");
         const message = document.getElementById("message-ife5t7Ts5P");
+
         const btn = document.getElementById("btn");
+
+        const honeypot_firstName = document.getElementById("first-name");
+        const honeypot_lastName = document.getElementById("last-name");
+        const honeypot_email = document.getElementById("email");
+        const honeypot_message = document.getElementById("message");
 
         async function submitForm() {
             event.preventDefault();
 
             btn.setAttribute("disabled", true);
             btn.innerHTML = "Submitting...";
+
+            if(honeypot_firstName.value || honeypot_lastName.value || honeypot_email.value || honeypot_message.value) {
+                form.reset();
+                form.className += " hidden";
+
+                document.getElementById("spam").removeAttribute("class", "hidden");
+                return;
+            }
 
             fetch("https://api.wdh.gg/forms/contact", {
                 method: "POST",
