@@ -94,7 +94,7 @@
             btn.setAttribute("disabled", true);
             btn.innerHTML = "Submitting...";
 
-            fetch("/api/contact", {
+            fetch("https://api.wdh.gg/forms/contact", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
