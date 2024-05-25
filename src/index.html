@@ -104,7 +104,7 @@
                     lastname: lastName.value,
                     email: email.value,
                     message: message.value,
-                    "cf-turnstile-response": document.getElementById("cf-turnstile-response").value
+                    "cf-turnstile-response": document.getElementsByName("cf-turnstile-response")[0].value
                 })
             }).then(res => res.json()).then(data => {
                 form.reset();
