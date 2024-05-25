@@ -31,6 +31,7 @@
 
         <!-- Scripts -->
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" defer></script>
     </head>
 
     <body class="p-8 max-w-md m-auto bg-zinc-900 text-white text-center">
@@ -40,15 +41,12 @@
 
         <main>
             <form id="contact" class="mb-8" onsubmit="submitForm()">
-                <input type="text" id="first-name-rT4zTaRGRt" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="First Name" required>
-                <input type="text" id="last-name-KgXrfFELy8" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Last Name" required>
-                <input type="email" id="email-mKjppLqK8M" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Email" required>
-                <textarea type="text" id="message-ife5t7Ts5P" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Message" required></textarea>
+                <input type="text" id="first-name" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="First Name" required>
+                <input type="text" id="last-name" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Last Name" required>
+                <input type="email" id="email" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Email" required>
+                <textarea type="text" id="message" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-6" placeholder="Message" required></textarea>
 
-                <input type="text" id="first-name" class="opacity-0 absolute inset-x-0 inset-y-0 w-0 -z-1" placeholder="First Name" autocomplete="off">
-                <input type="text" id="last-name" class="opacity-0 absolute inset-x-0 inset-y-0 w-0 -z-1" placeholder="Last Name" autocomplete="off">
-                <input type="email" id="email" class="opacity-0 absolute inset-x-0 inset-y-0 w-0 -z-1" placeholder="Email" autocomplete="off">
-                <textarea type="text" id="message" class="opacity-0 absolute inset-x-0 inset-y-0 w-0 -z-1" placeholder="Message" autocomplete="off"></textarea>
+                <div class="cf-turnstile mb-6"></div>
 
                 <button type="submit" id="btn" class="bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
             </form>
@@ -63,16 +61,15 @@
                 <h1 class="mb-6 text-2xl font-bold">An error occurred</h1>
             </div>
 
-            <div id="ratelimited" class="hidden">
+            <div id="captcha-failed" class="hidden">
+                <i class="fa-solid fa-x bg-red-600 pt-2.5 pb-2 pl-4 pr-4 rounded-full text-3xl mb-2"></i>
+                <h1 class="mb-6 text-2xl font-bold">The CAPTCHA failed, please try again.</h1>
+            </div>
+
+            <div id="rate-limited" class="hidden">
                 <i class="fa-solid fa-clock bg-yellow-600 pt-2.5 pb-2 pl-3 pr-3 rounded-full text-3xl mb-2"></i>
                 <h1 class="mb-2 text-2xl font-bold">Rate Limited</h1>
                 <p class="mb-6">Too many requests, please try again later.</p>
-            </div>
-
-            <div id="spam" class="hidden">
-                <i class="fa-solid fa-x bg-red-600 pt-2.5 pb-2 pl-4 pr-4 rounded-full text-3xl mb-2"></i>
-                <h1 class="mb-2 text-2xl font-bold">Spam Detected</h1>
-                <p class="mb-6">This form has been detected as spam.</p>
             </div>
         </main>
 
@@ -82,19 +79,25 @@
     </body>
 
     <script>
+        let turnstileResponse = "";
+
+        window.onloadTurnstileCallback = function () {
+            turnstile.render('.cf-turnstile', {
+                sitekey: '0x4AAAAAAAbGnJK5escCtsWk',
+                callback: function(token) {
+                    turnstileResponse = token;
+                }
+            })
+        }
+
         const form = document.getElementById("contact");
 
-        const firstName = document.getElementById("first-name-rT4zTaRGRt");
-        const lastName = document.getElementById("last-name-KgXrfFELy8");
-        const email = document.getElementById("email-mKjppLqK8M");
-        const message = document.getElementById("message-ife5t7Ts5P");
+        const firstName = document.getElementById("first-name");
+        const lastName = document.getElementById("last-name");
+        const email = document.getElementById("email");
+        const message = document.getElementById("message");
 
         const btn = document.getElementById("btn");
-
-        const honeypot_firstName = document.getElementById("first-name");
-        const honeypot_lastName = document.getElementById("last-name");
-        const honeypot_email = document.getElementById("email");
-        const honeypot_message = document.getElementById("message");
 
         async function submitForm() {
             event.preventDefault();
@@ -102,15 +105,7 @@
             btn.setAttribute("disabled", true);
             btn.innerHTML = "Submitting...";
 
-            if(honeypot_firstName.value || honeypot_lastName.value || honeypot_email.value || honeypot_message.value) {
-                form.reset();
-                form.className += " hidden";
-
-                document.getElementById("spam").removeAttribute("class", "hidden");
-                return;
-            }
-
-            fetch("https://api.wdh.gg/forms/contact", {
+            fetch("/api/contact", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -119,7 +114,8 @@
                     firstname: firstName.value,
                     lastname: lastName.value,
                     email: email.value,
-                    message: message.value
+                    message: message.value,
+                    "cf-turnstile-response": turnstileResponse
                 })
             }).then(res => res.json()).then(data => {
                 form.reset();
@@ -128,7 +124,9 @@
                 if(data.code === "FORM_SUBMITTED") {
                     document.getElementById("success").removeAttribute("class", "hidden");
                 } else if(data.code === "RATE_LIMITED") {
-                    document.getElementById("ratelimited").removeAttribute("class", "hidden");
+                    document.getElementById("rate-limited").removeAttribute("class", "hidden");
+                } else if(data.code === "CAPTCHA_FAILED") {
+                    document.getElementById("captcha-failed").removeAttribute("class", "hidden");
                 } else {
                     document.getElementById("error").removeAttribute("class", "hidden");
                 }
